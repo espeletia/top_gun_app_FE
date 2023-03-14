@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { Key, useEffect, useState } from 'react';
-import { Tournament, getAllTournamentsDto } from '../(types)/tournament';
+import { Tournament, TournamentProps, getAllTournamentsDto } from '../(types)/tournament';
 import RootLayout from '../layout';
 
 // export async function getAllTournaments() {
@@ -44,9 +44,9 @@ import RootLayout from '../layout';
 // }
 
 
-export async function getAllTournaments() {
+async function getAllTournaments() {
     const client = new ApolloClient({
-        uri: 'localhost:8080/query', // added http:// to URI
+        uri: 'http://localhost:8080/query', // added http:// to URI
         cache: new InMemoryCache()
     });
     const { data } = await client.query({
@@ -70,7 +70,10 @@ export async function getAllTournaments() {
         }
       `
     });
-    console.log(data);
+    // console.log({data});
+    // data.getAllTournaments.map((item: Tournament) => {
+    //     console.log({item});
+    // })
 
     return data.getAllTournaments.map((item: Tournament) => {
         return <Tournament key={item.Id} tournament={item} />;
@@ -78,60 +81,20 @@ export async function getAllTournaments() {
 }
 
 
-// export default function Tournaments() {
-//     const [tournaments, setTournaments] = useState<Array<Tournament> | Promise<any>>()
-//     useEffect(() => {
-//         const getTournaments = async () => {
-//             return getAllTournaments
-//         }
-//         setTournaments(getTournaments)
-//     }, [])
-
-//     return (
-//         <div>
-//             <h1>TOURNAEMNTS</h1>
-//             <div>
-//                 {typeof (tournaments) != Promise ? tournaments?.map((tournament: { id: Key | null | undefined; }) => {
-//                     return <Tournament key={tournament.id} tournament={tournament} />
-//                 }) : null}
-//             </div>
-//         </div>
-//     )
-// }
-
-export default function Tournaments() {
-    const [tournaments, setTournaments] = useState<Array<Tournament>>();
-    useEffect(() => {
-        const getTournaments = async () => {
-            const result = await getAllTournaments();
-            setTournaments(result);
-        };
-        getTournaments();
-    }, []);
-
-    useEffect(() => {
-        console.log(tournaments)
-    }, [tournaments])
-
-    return (
-        <RootLayout>
-            <div>
-                <h1>TOURNAMENTS</h1>
-                <div>
-                    {tournaments?.map((tournament: Tournament) => {
-                        return <Tournament key={tournament.Id} tournament={tournament} />;
-                    })}
-                </div>
-            </div>
-        </RootLayout>
-    );
+export default async function Page() {
+    const data = await getAllTournaments();
+    return <main>
+        {data}
+    </main>
 }
 
-function Tournament({ tournament }: any) {
-    const { id } = tournament || {};
+
+function Tournament({ tournament }: TournamentProps) {
+    const { Id } = tournament || {};
+    // console.log({tournament})
     return (
         <div>
-            <h2>{id}</h2>
+            <h2>{Id}</h2>
         </div>
     )
 } 

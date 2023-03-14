@@ -1,10 +1,13 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import Page from './tournamets/page';
 
 export default function HomePage() {
   return (
     <div>
       <h1>Home Page</h1>
       <p>Some content about fencing</p>
+      {/* @ts-expect-error Async Server Component */}
+      <Page></Page>
     </div>
   )
 }

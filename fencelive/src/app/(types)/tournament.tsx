@@ -17,3 +17,7 @@ export interface Tournament {
 export interface getAllTournamentsDto {
     getAllTournaments: Tournament[]
 }
+
+export interface TournamentProps {
+    tournament: Tournament
+}
