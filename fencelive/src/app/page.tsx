@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 export default function HomePage() {
-  //im gonna kill myself :))))))
   return (
     <div>
       <h1>Home Page</h1>
